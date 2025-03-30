@@ -8,7 +8,7 @@ public class ButtonClick : MonoBehaviour
     public Button redButton;
     public Button greenButton;
     public Button blueButton;
-    public SpriteRenderer characterColor;
+    public PlayerController player;
 
     void Start()
     {
@@ -19,7 +19,15 @@ public class ButtonClick : MonoBehaviour
 
     void OnButtonClick(Color newcolor)
     {
-        characterColor.material.color = newcolor;
-        Debug.Log("Color cambiado a: " + newcolor);
+        if (player != null)
+        {
+            player.ChangeColor(newcolor);
+            Debug.Log("Color cambiado a: " + newcolor);
+        }
+        else
+        {
+            Debug.Log("No se asigno el playercontroller ne buttonclick");
+        }
+        
     }
 }
