@@ -7,6 +7,9 @@ public class Cronometro : MonoBehaviour
     public TextMeshProUGUI tiempoTexto;
     private float tiempo = 0f;
     private bool contando = true;
+
+    public static string tiempoFinal; 
+
     void Update()
     {
         if (contando)
@@ -21,13 +24,13 @@ public class Cronometro : MonoBehaviour
         int segundos = (int)(t % 60);
         return minutos.ToString("00") + ":" + segundos.ToString("00");
     }
-    public void GameOver()
+
+    public void StopTime(string escena)
     {
         contando = false;
-        string tiempoFinal = FormatoTiempo(tiempo);
+        tiempoFinal = FormatoTiempo(tiempo);
         PlayerPrefs.SetString("TiempoFinal", tiempoFinal);
-        PlayerPrefs.Save(); 
-        Debug.Log("Tiempo guardado: " + tiempoFinal); 
-        SceneManager.LoadScene("GameOver");
+        PlayerPrefs.Save();
+        SceneManager.LoadScene(escena);
     }
 }

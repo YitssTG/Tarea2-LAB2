@@ -9,6 +9,7 @@ public class Life : MonoBehaviour
     public Image lifeBar;
     private float maxLife = 10f;
     private float currentLife;
+    public Cronometro cronometro;
 
     void Start()
     {
@@ -21,7 +22,7 @@ public class Life : MonoBehaviour
         if (currentLife <= 0)
         {
             currentLife = 0;
-            GameOver(); 
+            cronometro.StopTime("GameOver");
         }
         UpdateLifeBar();
     }
@@ -32,12 +33,16 @@ public class Life : MonoBehaviour
             lifeBar.fillAmount = currentLife / maxLife; 
         }
     }
-    public float GetCurrentLife()
-    {
-        return currentLife;
-    }
-    public void GameOver()
-    {
-        SceneManager.LoadScene("GameOver"); 
-    }
+    //public float GetCurrentLife()
+    //{
+    //    return currentLife;
+    //}
+    //public void GameOver()
+    //{
+    //    if (cronometro != null)
+    //    {
+    //        cronometro.SaceTime();
+    //    }
+    //    SceneManager.LoadScene("GameOver"); 
+    //}
 }
