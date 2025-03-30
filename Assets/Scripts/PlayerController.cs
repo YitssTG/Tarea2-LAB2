@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _Rigidbody2D;
     private float horizontal;
     public float velocity;
+    private Life lifeScript;
     [Header("Jump Mechanic")]
     [SerializeField] private int maxJumps = 1;
     [SerializeField] private int jumpsAvailable;
@@ -20,15 +21,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask layersInteraction;
     [SerializeField] private Color rayCollision = Color.green;
     [SerializeField] private Color rayNotCollision = Color.red;
+    void Start()
+    {
+        lifeScript = GetComponent<Life>(); 
 
-    [Header("Color Change")]
-    public GameObject buttonRed;
-    public GameObject buttonGreen;
-    public GameObject buttonBlue;
+        if (lifeScript == null)
+        {
+            Debug.LogError("No se encontró el script Life en el jugador.");
+        }
+    }
     void Awake()
     {
         _Rigidbody2D = GetComponent<Rigidbody2D>();
-        _spriteRendeder = GetComponent<SpriteRenderer>();
         jumpsAvailable = maxJumps;
     }
     void Update()
@@ -57,8 +61,15 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(origin.position, Vector2.down * distance, rayNotCollision);
         }
     }
-     void ChangeColor(Color newColor)
-     {
-        _spriteRendeder.color = newColor;
-     }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy") 
+        {
+            if (lifeScript != null)
+            {
+                lifeScript.TakeDamage(1); 
+                Debug.Log("Colisión con enemigo, vida restante: " + lifeScript.GetCurrentLife());
+            }
+        }
+    }
 }
