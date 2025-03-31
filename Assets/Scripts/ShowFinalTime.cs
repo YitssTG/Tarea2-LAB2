@@ -15,7 +15,7 @@ public class ShowFinalTime : MonoBehaviour
             return;
         }
 
-        string tiempo = PlayerPrefs.GetString("TiempoFinal", "00:00"); // Obtiene el tiempo o "00:00" si no hay guardado
+        string tiempo = PlayerPrefs.GetString("TiempoFinal", "00:00"); 
         textFinalTime.text = "Tiempo: " + tiempo;
         Debug.Log("Tiempo cargado: " + tiempo);
     }
