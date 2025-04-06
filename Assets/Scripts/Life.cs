@@ -4,17 +4,20 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-public class Life : MonoBehaviour
-{
-    public Image lifeBar;
-    private float maxLife = 10f;
-    private float currentLife;
-    public Cronometro cronometro;
+using System;
 
+public class Life : MonoBehaviour
+{ 
+    public float maxLife = 10f;
+    private float currentLife;
+    public CronometroControll cronometro;
+
+    public static event Action<float, float> OnLifeChanged;
+    public static event Action OnPlayerDead;
     void Start()
     {
         currentLife = maxLife;
-        UpdateLifeBar();
+        OnLifeChanged?.Invoke(currentLife, maxLife);
     }
     public void TakeDamage(float damage)
     {
@@ -22,27 +25,17 @@ public class Life : MonoBehaviour
         if (currentLife <= 0)
         {
             currentLife = 0;
-            cronometro.StopTime("GameOver");
+            OnPlayerDead?.Invoke();  
         }
-        UpdateLifeBar();
+        OnLifeChanged?.Invoke(currentLife, maxLife);
     }
-    private void UpdateLifeBar()
+    public void Heal(float amount)
     {
-        if (lifeBar != null)
+        currentLife += amount;
+        if (currentLife > maxLife)
         {
-            lifeBar.fillAmount = currentLife / maxLife; 
+            currentLife = maxLife;
         }
+        OnLifeChanged?.Invoke(currentLife, maxLife);
     }
-    //public float GetCurrentLife()
-    //{
-    //    return currentLife;
-    //}
-    //public void GameOver()
-    //{
-    //    if (cronometro != null)
-    //    {
-    //        cronometro.SaceTime();
-    //    }
-    //    SceneManager.LoadScene("GameOver"); 
-    //}
 }

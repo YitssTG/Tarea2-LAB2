@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class Cronometro : MonoBehaviour
+public class CronometroControll : MonoBehaviour
 {
     public TextMeshProUGUI tiempoTexto;
     private float tiempo = 0f;

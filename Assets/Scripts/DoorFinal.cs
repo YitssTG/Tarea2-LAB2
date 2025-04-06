@@ -1,19 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DoorFinal : MonoBehaviour
 {
-    public Cronometro cronometro; 
-
+    public static event Action OnPlayerWin;
     void OnTriggerEnter2D(Collider2D collision)
     {
-        PlayerController player = collision.GetComponent<PlayerController>();
-
-        if (player != null)
+        if (collision.CompareTag("Player"))
         {
-            cronometro.StopTime("GameWin");
+            if (ScoreManager.Instance != null && ScoreManager.Instance.score >= ScoreManager.Instance.targetScore)
+            {
+                OnPlayerWin?.Invoke();
+                Debug.Log("¡Ganaste con suficiente puntaje!");
+            }
+            else
+            {
+                Debug.Log("Necesitas al menos " + ScoreManager.Instance.targetScore + " monedas para ganar.");
+            }
         }
     }
 }
