@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     void OnDisable()
     {
         Life.OnPlayerDead -= HandleGameOver;
-        DoorFinal.OnPlayerWin += HandleGameWin;
+        DoorFinal.OnPlayerWin -= HandleGameWin;
     }
     void HandleGameOver()
     {
