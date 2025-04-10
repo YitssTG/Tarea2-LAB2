@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -45,12 +46,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         horizontal = Input.GetAxis("Horizontal");
-        if (Input.GetKeyDown(KeyCode.Space) && jumpsAvailable > 0)
-        {
-            _Rigidbody2D.velocity = new Vector2(_Rigidbody2D.velocity.x, 0);
-            _Rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jumpsAvailable--;
-        }
+        //if (Input.GetKeyDown(KeyCode.Space) && jumpsAvailable > 0)
+        //{
+        //    _Rigidbody2D.velocity = new Vector2(_Rigidbody2D.velocity.x, 0);
+        //    _Rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        //    jumpsAvailable--;
+        //}
     }
     void FixedUpdate()
     {
@@ -66,6 +67,19 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.DrawRay(origin.position, Vector2.down * distance, rayNotCollision);
+        }
+    }
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        Debug.Log("Jumpeando");
+
+        if (context.phase != InputActionPhase.Performed) return;
+
+        if (Input.GetKeyDown(KeyCode.Space) && jumpsAvailable > 0)
+        {
+            _Rigidbody2D.velocity = new Vector2(_Rigidbody2D.velocity.x, 0);
+            _Rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpsAvailable--;
         }
     }
     void OnTriggerEnter2D(Collider2D collision)
